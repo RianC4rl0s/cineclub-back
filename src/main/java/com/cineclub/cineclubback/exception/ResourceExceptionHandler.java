@@ -1,4 +1,4 @@
-package com.cineclub.cineclubback.controller.exceptions;
+package com.cineclub.cineclubback.exception;
 
 import java.time.Instant;
 
@@ -8,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import com.cineclub.cineclubback.services.exceptions.DataException;
-import com.cineclub.cineclubback.services.exceptions.ResourceNotFoundException;
 
 
 
@@ -43,8 +40,8 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
-	@ExceptionHandler(CrudExeption.class)
-	public ResponseEntity<StandardError> crudExeption(CrudExeption e, HttpServletRequest request){
+	@ExceptionHandler(CrudException.class)
+	public ResponseEntity<StandardError> crudExeption(CrudException e, HttpServletRequest request){
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
 		err.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());

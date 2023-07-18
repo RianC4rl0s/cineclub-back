@@ -1,4 +1,4 @@
-package com.cineclub.cineclubback.services.exceptions;
+package com.cineclub.cineclubback.exception;
 
 public class CrudException extends RuntimeException {
 

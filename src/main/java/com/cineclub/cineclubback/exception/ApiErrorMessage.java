@@ -1,4 +1,4 @@
-package com.cineclub.cineclubback.config.exception;
+package com.cineclub.cineclubback.exception;
 
 import java.util.Arrays;
 import java.util.List;

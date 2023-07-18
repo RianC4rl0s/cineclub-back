@@ -1,4 +1,4 @@
-package com.cineclub.cineclubback.controller.exceptions;
+package com.cineclub.cineclubback.exception;
 
 import java.io.Serializable;
 import java.time.Instant;

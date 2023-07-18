@@ -1,4 +1,4 @@
-package com.cineclub.cineclubback.services.exceptions;
+package com.cineclub.cineclubback.exception;
 public class ResourceNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

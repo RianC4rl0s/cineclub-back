@@ -81,13 +81,10 @@ public class UserController {
     }
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){
-        try {
+        
             userService.delete(id);
             return ResponseEntity.status(HttpStatus.OK).body("Paciente deletado com sucesso");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possivel deletar o paciente");
-        }
+        
     }
 
 }

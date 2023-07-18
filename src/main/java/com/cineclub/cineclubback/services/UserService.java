@@ -5,12 +5,17 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.cineclub.cineclubback.dtos.UserDto;
 import com.cineclub.cineclubback.entity.User;
+import com.cineclub.cineclubback.exception.DataException;
+import com.cineclub.cineclubback.exception.ResourceNotFoundException;
+import com.cineclub.cineclubback.exception.UserNotFoundException;
 import com.cineclub.cineclubback.repositories.UserRepository;
 
 @Service
@@ -22,17 +27,20 @@ public class UserService {
     @Autowired
     ModelMapper mapper;
 
-    public User findById(Integer id) throws Exception{
+    public User findById(Integer id) throws Exception {
 
-		return userRepository.findById(id).orElseThrow(() -> new Exception("ERRO 404, entity not found"));
-	}
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("No user by ID: " + id));
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
-	public Page<UserDto> findAllPaged(PageRequest pageRequest){
-		Page<User> list  = userRepository.findAll(pageRequest);
+
+    public Page<UserDto> findAllPaged(PageRequest pageRequest) {
+        Page<User> list = userRepository.findAll(pageRequest);
         return list.map(it -> mapper.map(it, UserDto.class));
     }
+
     public User create(User user) {
 
         User response = userRepository.save(user);
@@ -55,20 +63,20 @@ public class UserService {
         return response;
     }
 
-    public void delete(Integer id) throws Exception {
+    public void delete(Integer id) {
 
         try {
-            Optional<User> user = userRepository.findById(id);
-            userRepository.delete(user.get());
+            User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("user Not found"));
+            userRepository.delete(user);
 
-            // } catch (EmptyResultDataAccessException e) {
-        } catch (Exception e) {
-            throw new Exception("User not exist");
-            // } catch (DataIntegrityViolationException e) {
-            // // throw new DataException("Cannot dell Convenio");
+        } catch (EmptyResultDataAccessException e) {
+
+            throw new UserNotFoundException("User not exist");
+        } catch (DataIntegrityViolationException e) {
+            throw new DataException("Cannot dell User");
             // throw new Exception("Cannot dell user");
-            // }
-
         }
+
     }
+
 }
