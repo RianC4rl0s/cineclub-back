@@ -15,15 +15,15 @@ import lombok.Data;
 public class UserCreateDto {
     Integer id;
     @NotBlank(message = "The name can't be blank")
-    @Max(80)
+    
     private String name;
     @NotBlank(message = "The passoword can't be blank")
-    private String passoword;
-    @Pattern(regexp = "@\\\\w{1,20}",message = "The username need has 1 -20 characteres")
+    private String password;
+    @Pattern(regexp = "^@[\\w\\d]{1,30}$",message = "The username need has 1 -20 characteres")
     @NotBlank(message = "Username can't be blank")
     private String username;    
-    @Min(12)
+    //@Min(12)
     private Integer age;
-    @Column(length = 1000)
+    
     private String bio;
 }
