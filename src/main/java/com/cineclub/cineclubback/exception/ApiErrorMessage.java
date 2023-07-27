@@ -11,6 +11,7 @@ import lombok.Setter;
 public class ApiErrorMessage {
     private HttpStatus status;
     private List<String> errors;
+    
 
     public ApiErrorMessage(HttpStatus status, List<String> errors) {
         super();

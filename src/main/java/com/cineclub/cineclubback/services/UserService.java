@@ -1,7 +1,6 @@
 package com.cineclub.cineclubback.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.cineclub.cineclubback.dtos.UserDto;
 import com.cineclub.cineclubback.entity.User;
 import com.cineclub.cineclubback.exception.DataException;
-import com.cineclub.cineclubback.exception.ResourceNotFoundException;
+
 import com.cineclub.cineclubback.exception.UserNotFoundException;
 import com.cineclub.cineclubback.repositories.UserRepository;
 
@@ -27,9 +26,14 @@ public class UserService {
     @Autowired
     ModelMapper mapper;
 
-    public User findById(Integer id) throws Exception {
+    public User findUserById(Integer id) {
+        try {
+            return userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("No user by ID: " + id));
 
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("No user by ID: " + id));
+        } catch (UserNotFoundException e) {
+            throw new UserNotFoundException("No user by ID: " + id);
+        }
     }
 
     public List<User> findAll() {
@@ -66,7 +70,7 @@ public class UserService {
     public void delete(Integer id) {
 
         try {
-            User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("user Not found"));
+            User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("user Not found"));
             userRepository.delete(user);
 
         } catch (EmptyResultDataAccessException e) {

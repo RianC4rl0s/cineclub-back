@@ -48,6 +48,10 @@ public class UserController {
 
         return ResponseEntity.ok().body(userDtoList);
     }
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<User> getUserByIdPath(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(userService.findUserById(id));
+    }
     @GetMapping("/paged")
 	public ResponseEntity<Page<UserDto>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
