@@ -1,6 +1,5 @@
 package com.cineclub.cineclubback.exception;
 
-import java.security.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;

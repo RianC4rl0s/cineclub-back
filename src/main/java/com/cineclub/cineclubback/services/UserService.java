@@ -35,6 +35,15 @@ public class UserService {
             throw new UserNotFoundException("No user by ID: " + id);
         }
     }
+    public User findByUsername(String username) {
+        try {
+            return userRepository.findByUsername(username)
+                    .orElseThrow(() -> new UserNotFoundException("No user by USERNAME: " + username));
+
+        } catch (UserNotFoundException e) {
+            throw new UserNotFoundException(e.getMessage());
+        }
+    }
 
     public List<User> findAll() {
         return userRepository.findAll();

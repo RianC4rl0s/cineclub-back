@@ -24,7 +24,9 @@ public class User {
     private String name;
     private String password;
     @Column(unique = true, name = "username")
-    private String username;    
+    private String username;
+    @Column(unique = true)
+    private String email;
     private Integer age;
     @Column(length = 1000)
     private String bio;
