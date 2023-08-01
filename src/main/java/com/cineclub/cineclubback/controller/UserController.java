@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cineclub.cineclubback.dtos.UserCreateDto;
 import com.cineclub.cineclubback.dtos.UserDto;
 import com.cineclub.cineclubback.entity.User;
+import com.cineclub.cineclubback.entity.UserRole;
 import com.cineclub.cineclubback.services.UserService;
 @RestController
 @RequestMapping("/user")
@@ -66,7 +67,19 @@ public class UserController {
 
 		return ResponseEntity.ok().body(list);
 	}
-    @PostMapping
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody @Valid UserCreateDto dto) {
+       //ESSA LINHA ABAIXO É um tratamento, que tenho q adaptar
+        // if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
+        String encryptedPassword = new BCryptPasswordEncoder().encode(dto.getPassword());
+        UserCreateDto temp = dto;
+        temp.setPassword(encryptedPassword);
+        User response = mapper.map(temp, User.class);
+        response.setRole(UserRole.USER);
+        response = userService.create(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.map(response, UserDto.class));
+    }
+    @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody @Valid UserCreateDto dto) {
        
         User response = userService.create(mapper.map(dto, User.class));
