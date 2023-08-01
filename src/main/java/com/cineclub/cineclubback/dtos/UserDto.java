@@ -1,6 +1,7 @@
 package com.cineclub.cineclubback.dtos;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -20,9 +21,10 @@ public class UserDto {
     @Pattern(regexp = "^@[\\w\\d]{1,30}$", message = "username must start with @ and be between 1 and 20 characters long")
     @NotBlank(message = "Username can't be blank")
     private String username;
-    // @Min(12)
-    @Email(message = "Por favor insira um email valido")
+    @NotBlank(message = "The email can't be blank")
+    @Email(message = "Please use a valid email")
     private String email;
+    @Min(12)
     private Integer age;
     @Size(max = 1000)
     private String bio;
