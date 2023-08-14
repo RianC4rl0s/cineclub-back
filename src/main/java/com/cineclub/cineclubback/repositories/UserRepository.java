@@ -9,5 +9,5 @@ import com.cineclub.cineclubback.entity.User;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
     public Optional<User> findByUsername(String username);
-    public UserDetails findByEmail(String email);
+    public Optional<User> findByEmail(String email);
 }

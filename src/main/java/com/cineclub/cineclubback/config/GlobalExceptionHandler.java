@@ -7,6 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.cineclub.cineclubback.exception.ApiErrorMessage;
 import com.cineclub.cineclubback.exception.UserNotFoundException;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,17 +47,29 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    // @ExceptionHandler(Exception.class)
-    // public final ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(Exception ex) {
-    //     List<String> errors = Collections.singletonList(ex.getMessage());
-    //     return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(Exception ex) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-    // @ExceptionHandler(RuntimeException.class)
-    // public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
-    //     List<String> errors = Collections.singletonList(ex.getMessage());
-    //     return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
+    @ExceptionHandler(RuntimeException.class)
+    public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(java.util.NoSuchElementException.class)
+    public final ResponseEntity<Map<String, List<String>>> handleNoSuchElementException(NoSuchElementException ex) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST
+        );
+    }
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public final ResponseEntity<Map<String, List<String>>> handlerNNoHandlerException(NoHandlerFoundException  ex) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST
+        );
+    }
 
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
         Map<String, List<String>> errorResponse = new HashMap<>();

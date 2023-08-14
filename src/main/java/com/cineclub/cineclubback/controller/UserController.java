@@ -54,6 +54,14 @@ public class UserController {
     public ResponseEntity<User> getUserByIdPath(@PathVariable Integer id) {
         return ResponseEntity.ok().body(userService.findUserById(id));
     }
+    @GetMapping(path = "/username/{username}")
+    public ResponseEntity<User> getUserByUsernamePath(@PathVariable String username) {
+        return ResponseEntity.ok().body(userService.findByUsername(username));
+    }
+    @GetMapping(path = "/email/{email}")
+    public ResponseEntity<User> findUserByEmailPath(@PathVariable String email) {
+        return ResponseEntity.ok().body(userService.findByEmail(email));
+    }
 
     @GetMapping("/paged")
 	public ResponseEntity<Page<UserDto>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,

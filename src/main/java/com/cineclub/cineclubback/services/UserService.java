@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.cineclub.cineclubback.dtos.UserDto;
@@ -39,6 +40,15 @@ public class UserService {
         try {
             return userRepository.findByUsername(username)
                     .orElseThrow(() -> new UserNotFoundException("No user by USERNAME: " + username));
+
+        } catch (UserNotFoundException e) {
+            throw new UserNotFoundException(e.getMessage());
+        }
+    }
+    public User findByEmail(String email) {
+        try {
+            return userRepository.findByUsername(email)
+                    .orElseThrow(() -> new UserNotFoundException("No user by email: " + email));
 
         } catch (UserNotFoundException e) {
             throw new UserNotFoundException(e.getMessage());
