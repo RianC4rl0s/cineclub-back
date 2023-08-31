@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.cineclub.cineclubback.exception.ApiErrorMessage;
+import com.cineclub.cineclubback.exception.MovieNotFoundException;
 import com.cineclub.cineclubback.exception.UserNotFoundException;
 
 import java.time.Instant;
@@ -46,30 +47,40 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(MovieNotFoundException.class)
+    public ResponseEntity<ApiErrorMessage> handleNotFoundMovie(MovieNotFoundException ex,
+    HttpServletRequest request) {
+        System.out.println(request.getRequestURI());
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_FOUND, errors, Instant.now(),
+                "Não foi possivel encontrar o filmee devido a erros", request.getRequestURI());
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(Exception ex) {
-        List<String> errors = Collections.singletonList(ex.getMessage());
-        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
-        List<String> errors = Collections.singletonList(ex.getMessage());
-        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    @ExceptionHandler(java.util.NoSuchElementException.class)
-    public final ResponseEntity<Map<String, List<String>>> handleNoSuchElementException(NoSuchElementException ex) {
-        List<String> errors = Collections.singletonList(ex.getMessage());
-        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST
-        );
-    }
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public final ResponseEntity<Map<String, List<String>>> handlerNNoHandlerException(NoHandlerFoundException  ex) {
-        List<String> errors = Collections.singletonList(ex.getMessage());
-        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST
-        );
-    }
+    // @ExceptionHandler(Exception.class)
+    // public final ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(Exception ex) {
+    //     List<String> errors = Collections.singletonList(ex.getMessage());
+    //     return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
+
+    // @ExceptionHandler(RuntimeException.class)
+    // public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
+    //     List<String> errors = Collections.singletonList(ex.getMessage());
+    //     return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
+    // @ExceptionHandler(java.util.NoSuchElementException.class)
+    // public final ResponseEntity<Map<String, List<String>>> handleNoSuchElementException(NoSuchElementException ex) {
+    //     List<String> errors = Collections.singletonList(ex.getMessage());
+    //     return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST
+    //     );
+    // }
+    // @ExceptionHandler(NoHandlerFoundException.class)
+    // public final ResponseEntity<Map<String, List<String>>> handlerNNoHandlerException(NoHandlerFoundException  ex) {
+    //     List<String> errors = Collections.singletonList(ex.getMessage());
+    //     return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST
+    //     );
+    // }
 
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
         Map<String, List<String>> errorResponse = new HashMap<>();

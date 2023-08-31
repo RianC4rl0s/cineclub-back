@@ -33,9 +33,11 @@ public class UserService {
                     .orElseThrow(() -> new UserNotFoundException("No user by ID: " + id));
 
         } catch (UserNotFoundException e) {
+
             throw new UserNotFoundException("No user by ID: " + id);
         }
     }
+
     public User findByUsername(String username) {
         try {
             return userRepository.findByUsername(username)
@@ -45,6 +47,7 @@ public class UserService {
             throw new UserNotFoundException(e.getMessage());
         }
     }
+
     public User findByEmail(String email) {
         try {
             return userRepository.findByUsername(email)
