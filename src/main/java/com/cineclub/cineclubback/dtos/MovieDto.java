@@ -24,7 +24,7 @@ public class MovieDto {
     private LocalDate releaseDate;
     private String banner;
 
-    //private List<Genre> genres;
+    private List<Genre> genres;
 
     private Double avaregeRating;
 

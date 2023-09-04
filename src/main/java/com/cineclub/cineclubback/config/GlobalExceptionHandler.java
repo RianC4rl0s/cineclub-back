@@ -58,11 +58,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    // @ExceptionHandler(Exception.class)
-    // public final ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(Exception ex) {
-    //     List<String> errors = Collections.singletonList(ex.getMessage());
-    //     return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(Exception ex) {
+        ex.printStackTrace();
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     // @ExceptionHandler(RuntimeException.class)
     // public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
