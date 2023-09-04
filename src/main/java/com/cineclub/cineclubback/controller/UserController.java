@@ -110,7 +110,7 @@ public class UserController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){
         
             userService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Paciente deletado com sucesso");
+            return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso");
         
     }
 

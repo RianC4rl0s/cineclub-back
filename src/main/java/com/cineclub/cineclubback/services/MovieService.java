@@ -39,9 +39,9 @@ public class MovieService {
 
     }
 
-    public List<Movie> fidByName(String sub) {
+    public List<Movie> findByName(String sub) {
 
-        return movieRepository.findByNameContaining(sub);
+        return movieRepository.findByNameContainingIgnoreCase(sub);
 
     }
 

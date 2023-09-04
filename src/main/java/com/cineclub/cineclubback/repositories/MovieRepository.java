@@ -6,5 +6,5 @@ import java.util.List;
 import com.cineclub.cineclubback.entity.Movie;
 
 public interface MovieRepository extends JpaRepository<Movie,Integer> {
-    List<Movie> findByNameContaining(String infix);
+    List<Movie> findByNameContainingIgnoreCase(String infix);
 }
