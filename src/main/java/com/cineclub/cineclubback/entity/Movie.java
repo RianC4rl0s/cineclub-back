@@ -17,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -52,5 +53,8 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie")
     Set<Movie_Rating> rating;
+
+    @ManyToMany(mappedBy = "movies")
+    List<Club> clubs;
 
 }

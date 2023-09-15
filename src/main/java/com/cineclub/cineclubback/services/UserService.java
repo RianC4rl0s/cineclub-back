@@ -50,7 +50,7 @@ public class UserService {
 
     public User findByEmail(String email) {
         try {
-            return userRepository.findByUsername(email)
+            return userRepository.findByEmail(email)
                     .orElseThrow(() -> new UserNotFoundException("No user by email: " + email));
 
         } catch (UserNotFoundException e) {

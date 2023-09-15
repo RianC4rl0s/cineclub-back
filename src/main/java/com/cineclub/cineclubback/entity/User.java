@@ -11,6 +11,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -51,6 +54,11 @@ public class User implements UserDetails {
     Set<Movie_Rating> rating;
 
 
+    @ManyToMany
+    @JoinTable(name ="user_club",
+    joinColumns = @JoinColumn(name="user_id"),
+    inverseJoinColumns = @JoinColumn(name="club_id"))
+    List<Club> clubs;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
