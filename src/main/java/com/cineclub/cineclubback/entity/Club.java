@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,4 +42,7 @@ public class Club {
     joinColumns = @JoinColumn(name="club_id"),
     inverseJoinColumns = @JoinColumn(name="movie_id"))
     List<Movie> movies;
+
+    @OneToMany(mappedBy = "club")
+    List<RantingPub> publications;
 }
