@@ -55,7 +55,7 @@ public class MovieController {
         return ResponseEntity.ok().body(movieService.findById(id));
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @Transactional
     public ResponseEntity<List<MovieDto>> findMoviesByName(@RequestBody SearchMovieDto dto){
         List <Movie> movieList = movieService.findByName(dto.movieName);
